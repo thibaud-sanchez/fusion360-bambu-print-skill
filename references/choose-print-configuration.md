@@ -10,7 +10,7 @@ Honor an explicitly requested mode. During iterative development without another
 
 During development, deliver one current Prototype project, using Prototype --mechanical when necessary. Aim for one plate with all required parts, allowing for actual brim/support footprints, bed limits and compatible settings. If one plate cannot work reliably, explain the concrete constraint and use the minimum necessary plates in that same project where supported.
 
-Update the current project as needed while preserving recoverable checkpoints and older delivered revisions. Do not generate extra Functional, Quality, MakerWorld, alternate-orientation, replacement-only or coupon projects unless requested or already authorized. A small coupon may be proposed when it resolves a specific uncertainty; do not automatically add it to every delivery. Once the user requests another mode, prepare that mode without generating the remaining modes as well.
+Update the current project as needed while preserving recoverable checkpoints and older delivered revisions. Do not generate extra Functional, Quality, Release, alternate-orientation, replacement-only or coupon projects unless requested or already authorized. A small coupon may be proposed when it resolves a specific uncertainty; do not automatically add it to every delivery. Once the user requests another mode, prepare that mode without generating the remaining modes as well.
 
 Time comparisons do not require a collection of delivered variants: when optimization is requested, keep baseline measurements and temporary experiments as evidence, then deliver the selected result. Distinguish internal trials from user-facing projects.
 
@@ -20,9 +20,9 @@ Time comparisons do not require a collection of delivered variants: when optimiz
 | **Prototype --mechanical** | Fast iteration that must still assemble, move, transmit force, or test a working fit | Minimum time while protecting functional features |
 | **Functional** | A working part, loaded bracket, joint, shaft, clip, gear, or sliding interface | Mechanical resistance, dimensional accuracy, and reliability |
 | **Quality** | A display model, decorative shell, visible surface, or a presentation finish | Appearance and surface quality |
-| **MakerWorld** | A repeatable print profile or local project prepared for sharing | Reliability, reproducibility, and easy printing and assembly |
+| **Release** | A repeatable print profile or local project prepared for sharing on any platform | Reliability, reproducibility, and easy printing and assembly |
 
-A prototype containing working interfaces normally needs **Prototype --mechanical**. Mechanical-looking geometry used only as a visual mock-up can use plain Prototype. For a mixed assembly, select one overall mode and identify protected mechanical or visible components with explicit overrides. MakerWorld mode prepares shareable files; it does not imply permission to publish or upload them.
+A prototype containing working interfaces normally needs **Prototype --mechanical**. Mechanical-looking geometry used only as a visual mock-up can use plain Prototype. For a mixed assembly, select one overall mode and identify protected mechanical or visible components with explicit overrides. Release mode prepares shareable files; it does not imply permission to publish or upload them.
 
 `Prototype --mechanical` is an assistant workflow mode, not a Bambu Studio CLI flag.
 
@@ -30,7 +30,7 @@ A prototype containing working interfaces normally needs **Prototype --mechanica
 
 These are starting points for a **0.4 mm nozzle**, not universal limits or mechanically validated presets. Preserve explicit project requirements. Check compatible installed profiles and nozzle limits before applying any value; adapt heights and features for another nozzle or material.
 
-| Setting | Prototype | Functional | Quality | MakerWorld |
+| Setting | Prototype | Functional | Quality | Release |
 |---|---:|---:|---:|---:|
 | `layer_height`, mm | 0.28 | 0.16–0.20 | 0.12–0.16 | 0.16–0.20 |
 | `wall_loops` | 2 | 3–4 | 3 | 3 |
@@ -45,9 +45,9 @@ When geometry does not distinguish between values in a range, use these initial 
 - Prototype: 0.28 mm, 2 walls, 5% infill, 3 top and 3 bottom layers, ironing disabled. Increase infill toward 10% if sparse support beneath top surfaces is inadequate.
 - Functional: 0.20 mm, 4 walls, 20% infill, 5 top and 5 bottom layers. Use 0.16 mm or local reinforcement where the functional geometry requires it.
 - Quality: 0.16 mm, 3 walls, 15% infill, 5 top and 5 bottom layers. Consider 0.12 mm where visible curvature or small details justify the additional time.
-- MakerWorld: 0.20 mm, 3 walls, 15% infill, 5 top and 5 bottom layers. Use 0.16 mm when the model's details or assembly interfaces need it.
+- Release: 0.20 mm, 3 walls, 15% infill, 5 top and 5 bottom layers. Use 0.16 mm when the model's details or assembly interfaces need it.
 
-For Functional, prioritize load direction, wall thickness, and raster continuity. Infill percentage is not a strength certificate. For Quality, place seams away from important visible faces, inspect overhangs and top surfaces, and keep tolerances on any working interfaces. For MakerWorld, use clear part and plate names, portable documented profiles, consistent placement, accessible support removal, and a saved project that reopens correctly.
+For Functional, prioritize load direction, wall thickness, and raster continuity. Infill percentage is not a strength certificate. For Quality, place seams away from important visible faces, inspect overhangs and top surfaces, and keep tolerances on any working interfaces. For Release, use clear part and plate names, portable documented profiles, consistent placement, accessible support removal, and a saved project that reopens correctly.
 
 ### Prototype --mechanical
 

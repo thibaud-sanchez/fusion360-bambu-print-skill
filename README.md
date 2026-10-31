@@ -1,6 +1,6 @@
 # Fusion 360 & Bambu Studio - Design for 3D Printing
 
-**`fusion-bambu-print`** is a Codex skill for designing printable FDM parts in Autodesk Fusion and preparing them in Bambu Studio. It focuses on simple mechanisms, robust assembly, practical build orientations and efficient iterations.
+**`fusion-bambu-print`** is an AI assistant skill for designing printable FDM parts in Autodesk Fusion and preparing them in Bambu Studio. It focuses on simple mechanisms, robust assembly, practical build orientations and efficient iterations.
 
 This package contains instructions and focused references. Automation uses the Fusion and Bambu tools already available in your environment; the skill does not install an MCP server or a new application integration.
 
@@ -9,7 +9,7 @@ This package contains instructions and focused references. Automation uses the F
 - Parametric models designed around print orientation, layer strength, bed contact and support removal.
 - Straightforward assemblies, accessible connections and selective use of print-in-place joints.
 - Stable part IDs such as `B1` and `A3`, shared across Fusion, exports and assembly guides.
-- Print settings suited to a prototype, a working part, a display model or a MakerWorld release.
+- Print settings suited to a prototype, a working part, a display model or a release prepared for sharing.
 - Smaller iterations: reuse working scripts, test the affected parts and preserve checkpoints without rebuilding every deliverable.
 - Revision-matched CAD views, exports and assembly instructions when delivering an assembly.
 
@@ -19,7 +19,7 @@ The guiding principle is **KISS — Keep It Simple, Stupid**. Reduce fragile fea
 
 | Task | Required capability |
 |---|---|
-| Use the instructions | Codex with local skill support |
+| Use the instructions | An AI assistant that can load skill instructions and their reference files |
 | Read or modify native CAD | Autodesk Fusion with an available MCP connection or another supported automation route |
 | Run Fusion Python scripts | Access to Fusion's in-process `adsk` API; ordinary external Python is insufficient |
 | Apply settings and obtain print estimates | Bambu Studio with usable GUI automation, an installed CLI or an existing compatible tool |
@@ -32,28 +32,26 @@ Planning defaults are **Bambu Lab A1 mini, 0.4 mm nozzle and PLA**. Replace them
 
 Keep `SKILL.md` and `references/` together inside a directory named `fusion-bambu-print`.
 
-For the standard repository layout `skills/fusion-bambu-print/`, run the following from the repository root on macOS or Linux to install for your user:
+1. Download or clone the `fusion360-bambu-print-skill` repository.
+2. Locate the directory containing `SKILL.md` and `references/`. Install that directory as `fusion-bambu-print` using your assistant's skill installer, configuration or supported skills directory.
+3. Check that the assistant can discover the skill and read its references.
+4. Configure access to Fusion and Bambu Studio through tools supported by your environment.
 
-```sh
-mkdir -p "$HOME/.agents/skills"
-cp -R skills/fusion-bambu-print "$HOME/.agents/skills/"
-```
+Installation paths, activation syntax and reload behavior depend on the assistant. Use its documentation rather than assuming a common directory or command. If the skill is already installed, update that copy rather than keeping duplicates.
 
-For a project-scoped installation, place the skill directory in `.agents/skills/` inside that project. If the skill is already configured elsewhere, update that copy rather than installing duplicates. Codex detects local skill changes; restart it if the skill does not appear.
-
-See the [official Codex skill documentation](https://developers.openai.com/codex/skills/) for discovery locations and installation details. These commands install only the skill files; configure application access separately.
+The package supplies workflow instructions; available automation depends on the host and its connected tools. Installing the skill alone does not connect either application.
 
 ## Use it
 
-Mention `$fusion-bambu-print` in a Codex prompt, or let Codex select it when the request matches its description. Include the intended use, size, printer/material, available model files and any physical test feedback.
+Ask your assistant to use `fusion-bambu-print`, following its supported activation syntax. Include the intended use, size, printer/material, available model files and any physical test feedback.
 
 Examples:
 
-> Use $fusion-bambu-print to design a small sliding enclosure in Fusion. Keep assembly simple, identify each part and prepare one mechanical prototype project on one plate if it fits reliably.
+> Use fusion-bambu-print to design a small sliding enclosure in Fusion. Keep assembly simple, identify each part and prepare one mechanical prototype project on one plate if it fits reliably.
 
-> Use $fusion-bambu-print to improve this hinge after a printed failure. Reuse the working geometry and validated PLA profile, revise the affected connection and preserve the previous version.
+> Use fusion-bambu-print to improve this hinge after a printed failure. Reuse the working geometry and validated PLA profile, revise the affected connection and preserve the previous version.
 
-> Use $fusion-bambu-print to prepare this tested assembly in MakerWorld mode. Provide a verified Bambu 3MF and an assembly guide using the same part IDs as Fusion. Do not publish it.
+> Use fusion-bambu-print to prepare this tested assembly in Release mode for sharing. Provide a verified Bambu 3MF and an assembly guide using the same part IDs as Fusion. Do not publish it.
 
 ## Print modes
 
@@ -63,7 +61,7 @@ Examples:
 | **Prototype --mechanical** | Fast trials that still need to fit, move or transmit force |
 | **Functional** | Strength, dimensional accuracy and reliability |
 | **Quality** | Appearance and visible surfaces |
-| **MakerWorld** | Repeatability, approachable assembly and documented print projects |
+| **Release** | Repeatability, approachable assembly and documented print projects for sharing |
 
 During development, the default is one current prototype project, with one plate when practical. Extra modes and delivered variants wait for a request. `Prototype --mechanical` is a workflow label, not a Bambu CLI flag.
 
@@ -79,7 +77,7 @@ Starting a print or uploading a project requires an explicit request. No fixed r
 
 ## Package layout
 
-- [SKILL.md](SKILL.md): instructions for Codex and routing to the relevant references.
+- [SKILL.md](SKILL.md): instructions for the assistant and routing to the relevant references.
 - [references/](references/): design, mechanical assembly, Fusion, Bambu settings and iteration guidance.
 - `README.md`: installation and usage information for people.
 

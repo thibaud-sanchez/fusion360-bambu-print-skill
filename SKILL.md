@@ -1,6 +1,6 @@
 ---
 name: fusion-bambu-print
-description: Design or modify parametric Fusion 360 models for FDM printing, choose and optimize Bambu Studio settings, assess printability, and prepare or troubleshoot Bambu 3MF projects. Use for Prototype, Functional, Quality, or MakerWorld print preparation, including fast mechanical prototypes.
+description: Design or modify parametric Fusion 360 models for FDM printing, choose and optimize Bambu Studio settings, assess printability, and prepare or troubleshoot Bambu 3MF projects. Use for Prototype, Functional, Quality, or Release print preparation, including fast mechanical prototypes.
 ---
 
 # Fusion 360 to Bambu printing
@@ -17,7 +17,7 @@ Produce an editable model and a print configuration appropriate to the actual ma
 
 Before selecting a process preset, changing print parameters, or optimizing print time, read [choose-print-configuration](references/choose-print-configuration.md).
 
-That reference defines selection of **Prototype**, **Prototype --mechanical**, **Functional**, **Quality**, and **MakerWorld**, their initial settings, component overrides, selective brims for adhesion and stability, exact Bambu parameter names, and the comparison report. During development, keep one current prototype project and aim for one plate; additional modes and user-facing variants require a request or existing authorization. Explicit user requirements take precedence over defaults. Apply the reference to settings-only requests even when no CAD changes are needed.
+That reference defines selection of **Prototype**, **Prototype --mechanical**, **Functional**, **Quality**, and **Release**, their initial settings, component overrides, selective brims for adhesion and stability, exact Bambu parameter names, and the comparison report. During development, keep one current prototype project and aim for one plate; additional modes and user-facing variants require a request or existing authorization. Explicit user requirements take precedence over defaults. Apply the reference to settings-only requests even when no CAD changes are needed.
 
 ## Design, verify, and prepare
 
