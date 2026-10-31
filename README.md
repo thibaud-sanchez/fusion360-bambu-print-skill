@@ -12,6 +12,7 @@ This package contains instructions and focused references. Automation uses the F
 - Print settings suited to a prototype, a working part, a display model or a release prepared for sharing.
 - Geometry-based [support selection](references/choose-support-structure.md), including normal, tree and hybrid styles, stability and removal access.
 - Smaller iterations: reuse working scripts, test the affected parts and preserve checkpoints without rebuilding every deliverable.
+- Clean reconstruction of repeatedly edited parts: preserve functional interfaces and replace accumulated repairs, obsolete tabs and stray ledges with coherent geometry.
 - Revision-matched CAD views, exports and assembly instructions when delivering an assembly.
 
 The guiding principle is **KISS — Keep It Simple, Stupid**. Reduce fragile features and delicate handling steps while preserving the mechanism's required function.
@@ -51,6 +52,8 @@ Examples:
 > Use fusion-bambu-print to design a small sliding enclosure in Fusion. Keep assembly simple, identify each part and prepare one mechanical prototype project on one plate if it fits reliably.
 
 > Use fusion-bambu-print to improve this hinge after a printed failure. Reuse the working geometry and validated PLA profile, revise the affected connection and preserve the previous version.
+
+> Cleanly rebuild this part with fusion-bambu-print. Preserve the functional interfaces, reconstruct coherent volumes and remove superseded geometry. Resolve each marked region in the issue image and show matching CAD views.
 
 > Use fusion-bambu-print to prepare this tested assembly in Release mode for sharing. Provide a verified Bambu 3MF and an assembly guide using the same part IDs as Fusion. Do not publish it.
 

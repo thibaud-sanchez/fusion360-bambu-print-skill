@@ -15,6 +15,19 @@ Identify the exact part, its mating parts and its role: fixed support, moving li
 
 Check a proposed insertion path and required retention before detailed styling or full export. Collision-free motion alone does not prove that a part can be assembled or cannot fall out. Share the assembly sequence between path checks and illustrated guides rather than independently recreating it.
 
+## Reconstruct a clean part when geometry accumulates
+
+Treat each revision as a finished part design. When repeated edits leave obsolete fixings, overlapping repairs, thin tabs or stepped remnants, reconstruct the affected region or part from its current functions. Preserve the interfaces; replace the accumulated geometry with a coherent design.
+
+1. Identify the current datums, mating dimensions, required motion/assembly clearances and load paths. Distinguish these from old features that no longer serve the selected architecture.
+2. Define a simple authoritative envelope and deliberate pockets. Rebuild the complete affected region, including its connections to adjacent material. Remove or replace superseded solids and cuts instead of adding another cover, rib, filler or fillet around them.
+3. Give every remaining projection and recess a current purpose. Remove obsolete locating tabs, old latch roots, thin ledges, isolated teeth, tiny notches and accidental sliver faces. Rounding an obsolete feature does not resolve it. Preserve intentionally small functional details where justified by their role and printability.
+4. Verify connectivity and printability. One connected solid per intended fixed part is necessary, but does not prove the shape is clean. Boolean Join alone does not eliminate redundant surfaces or a visibly pieced-together form. Multiple deliberate CAD features are acceptable; do not force one operation or erase editable design intent merely to reduce the timeline count.
+5. Inspect the actual part from the relevant front, rear, top and detail views. With an annotated issue image, track every marked region and show the corresponding corrected view. Do not substitute an unrelated cosmetic pass or a flattering assembled view for inspecting the identified defects.
+6. Recheck the affected interfaces and clearances. Keep the earlier revision recoverable. Mark unresolved functional compromises explicitly instead of presenting them as completed cleanup.
+
+Use a small direct edit when it produces a clean result. Repeated failure or repeated complaints about the same area are reasons to reconsider the construction, rather than continue trimming individual fragments. Preserve deliberate component separation, moving parts and necessary reference entities. This rule does not authorize unrelated redesigns or merging an articulated assembly into one solid.
+
 ## Reuse execution, limit repeated context
 
 - Inspect existing helpers before writing replacements for transforms, units, captures, collision checks, mesh inspection or exports. Extract a small tested function when repetition justifies it; do not refactor historical archives or build a general geometry framework as part of an ordinary model edit.

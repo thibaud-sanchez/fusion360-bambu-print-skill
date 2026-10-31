@@ -12,6 +12,8 @@ Prefer substantial planar bed contact. Rounded shells can have a hidden flat rim
 
 Question unnecessary geometry. An eccentric drive may need only a rigid arm and an offset pin, rather than a complete disc. Retain a full circular rim when it serves as a bearing, gear, cam, guard or required inertia. Check the complete motion envelope after any simplification.
 
+Repeated revisions must still produce a coherent printable part. Apply [clean part reconstruction](efficient-iterations-and-part-identity.md#reconstruct-a-clean-part-when-geometry-accumulates) when obsolete interfaces or repair fragments remain. Define the required envelope and interfaces, replace the affected geometry, and remove unused tabs and ledges. Extra material may be appropriate for a smooth, robust connection; every added volume must have a deliberate purpose.
+
 ## Make overhangs and assembly deliberate
 
 - Favor buildable slopes and chamfers on downward-facing edges. About 45 degrees **from the bed plane** is a conservative starting design heuristic, not a universal support threshold. Keep the angle convention explicit. Visible curves may remain curved when their orientation prints well.
