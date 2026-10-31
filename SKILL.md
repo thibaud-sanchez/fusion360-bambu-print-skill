@@ -17,7 +17,7 @@ Produce an editable model and a print configuration appropriate to the actual ma
 
 Before selecting a process preset, changing print parameters, or optimizing print time, read [choose-print-configuration](references/choose-print-configuration.md).
 
-That reference defines selection of **Prototype**, **Prototype --mechanical**, **Functional**, **Quality**, and **Release**, their initial settings, component overrides, selective brims for adhesion and stability, exact Bambu parameter names, and the comparison report. During development, keep one current prototype project and aim for one plate; additional modes and user-facing variants require a request or existing authorization. Explicit user requirements take precedence over defaults. Apply the reference to settings-only requests even when no CAD changes are needed.
+That reference defines selection of **Prototype**, **Prototype --mechanical**, **Functional**, **Quality**, and **Release**, their initial settings, component overrides, selective brims for adhesion and stability, exact Bambu parameter names, and the comparison report. Before choosing support family or style, follow [Choose support structures](references/choose-support-structure.md); assess normal, tree and hybrid candidates from actual geometry and removal access. During development, keep one current prototype project and aim for one plate; additional modes and user-facing variants require a request or existing authorization. Explicit user requirements take precedence over defaults. Apply the reference to settings-only requests even when no CAD changes are needed.
 
 ## Design, verify, and prepare
 

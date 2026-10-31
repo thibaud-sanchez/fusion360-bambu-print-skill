@@ -10,6 +10,7 @@ This package contains instructions and focused references. Automation uses the F
 - Straightforward assemblies, accessible connections and selective use of print-in-place joints.
 - Stable part IDs such as `B1` and `A3`, shared across Fusion, exports and assembly guides.
 - Print settings suited to a prototype, a working part, a display model or a release prepared for sharing.
+- Geometry-based [support selection](references/choose-support-structure.md), including normal, tree and hybrid styles, stability and removal access.
 - Smaller iterations: reuse working scripts, test the affected parts and preserve checkpoints without rebuilding every deliverable.
 - Revision-matched CAD views, exports and assembly instructions when delivering an assembly.
 

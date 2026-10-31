@@ -4,6 +4,8 @@ Read [choose-print-configuration](choose-print-configuration.md) before selectin
 
 Import at the intended scale, orient and arrange the parts, and verify the printable envelope and alignment of multi-part or multicolor assemblies. Check bed contact, support access, assembly interfaces, and collisions. Slice and inspect layers, missing paths, unsupported islands, bridges, and warnings. Only report time and filament estimates obtained from the slicer.
 
+Choose support family and style using [Choose support structures](choose-support-structure.md). Record the effective `support_type` and `support_style`, including supported component overrides. A preset's default or the word Auto does not establish the best support strategy. Inspect generated coverage and removal access before choosing by time or material.
+
 An STL or geometry-only 3MF is not necessarily a Bambu project with settings, placement, materials, and modifiers. When a Bambu project is requested, save it through a compatible Bambu Studio version or an existing tool with verified compatibility. Reopen it and check objects, profiles, overrides, and placement. Do not claim readiness when slicing, profile compatibility, or reopening remains unverified. Reslice for a changed machine, nozzle, material, or other relevant configuration.
 
 Do not directly modify a 3MF's internal ZIP/XML structure without validating the format, the writer's compatibility, and the resulting project. Prefer the application's own save/export workflow. An ordinary standalone process-profile JSON is distinct from editing an archive's internals; validate it with the installed slicer before using it. Do not develop a new integration or archive writer for this workflow.

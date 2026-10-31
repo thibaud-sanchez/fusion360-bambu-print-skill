@@ -69,6 +69,10 @@ Use the project's verified printer, nozzle, plate, and filament first. Otherwise
 
 For components with different needs, use supported object, part, or modifier overrides. Confirm which settings are actually overridable in the installed version and workflow. Do not assume independent layer heights or process presets are supported for every object or plate. If incompatible requirements cannot be expressed safely, use separate compatible plates or projects. Sequential printing is an option only after checking actual toolhead clearances.
 
+## Choose supports from actual geometry
+
+Before applying support type or style, read [Choose support structures](choose-support-structure.md). Select the family, style, placement and removal path per component where supported, rather than inheriting one global choice without assessment. Auto placement does not evaluate which family is best; a hybrid style can combine tree and normal regions. Compare two credible candidates only when useful and slicing is authorized, then retain one selected project.
+
 ## Choose brims from actual bed contact
 
 Apply this assessment in every mode, including Prototype. Judge the actual first-layer contact patches, their narrowest supporting span, and the part's height and overhang leverage. The XY bounding box is not the adhesion area: a large hollow or curved part may touch the bed only along a thin rim or a few feet. Consider material warping, the plate and first-layer condition, prior failures, and motion of a moving bed.
@@ -104,7 +108,8 @@ Use these internal setting identifiers when reading or writing settings. Match t
 | Minimum bottom shell thickness | `bottom_shell_thickness` | Millimeters; inspect inherited values and effective shells |
 | Ironing type | `ironing_type` | Disabled is `"no ironing"` in the verified profile format |
 | Enable support | `enable_support` | Preserve the writer's boolean representation; inspect the result |
-| Support type | `support_type` | Preserve a compatible style or choose a validated enum for the geometry |
+| Support type | `support_type` | Select a verified family and auto/manual mode from the geometry; follow the support reference |
+| Support style | `support_style` | Verify a compatible style and effective default; normal and tree families have different candidates |
 | Support on build plate only | `support_on_build_plate_only` | Use only when all required supported regions remain reachable |
 | Seam position | `seam_position` | Choose a supported policy or use seam painting through available tools |
 | Top surface pattern | `top_surface_pattern` | Select an installed supported pattern for the intended finish |
