@@ -20,6 +20,8 @@ FDM properties depend on direction, geometry and processing. Avoid configuration
 
 Changing orientation can compromise roundness, fit, bed contact, overhangs or assembly access. If one piece contains conflicting requirements, compare an integrated planar latch, a separate printed axle or another joint arrangement. Balance the extra assembly work against the actual strength benefit; do not split every model automatically.
 
+After observed journal ovalization or binding, reconsider a horizontal shaft orientation even when it benefits the attached lever. Printing the shaft axis along printer Z places circular sections in printer XY; compare this candidate with the strength of every integral pin, bed contact, first-layer expansion and support removal. Keep support contacts off running cylinders where practical. An integrated eccentric pin may then grow across layer interfaces, so retain a substantial root and verify it physically. Confirm the chosen orientation in the exported mesh and saved slicer placement; do not assume a flat lever preference applies to the entire combined drive.
+
 ## Design the flexible section, not just a thicker part
 
 A thicker snap beam generally needs more force to reach the same deflection and can make assembly harder. Consider effective flexible length, required deflection, a tapered lead-in, a smooth root transition, room for the beam to move, and retention after engagement. Preserve the bearing or torque-transmitting section when revising the latch.

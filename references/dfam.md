@@ -4,6 +4,8 @@ During architecture and geometry design, first apply [Design for reliable FDM pr
 
 Check the overall envelope against the actual printable volume; body count and bed contact; closed, nondegenerate meshes and disconnected regions; walls, small details, bridges, and overhangs; stability and adhesion area. Compare candidate orientations for supports, visible surfaces, time, and load direction, including weakness across layer boundaries. A disconnected model region can be printable when suitable supports are provided.
 
+A native body reported as solid with one lump can still contain a tangential, zero-thickness connection that exports as a nonmanifold edge. Join load-bearing roots through a finite area, not only a shared edge or point. Locate a failed mesh connection and correct its native geometry; do not hide a structural disconnection with automatic slicer repair or silently discard a component.
+
 For small contact patches, slender parts or lifting risk, apply the selective-brim assessment in [choose-print-configuration](choose-print-configuration.md#choose-brims-from-actual-bed-contact). Inspect actual first-layer contact and removal access rather than adding a brim based only on overall part size.
 
 Relate wall thickness to extrusion width and function. Inspect the slice to confirm that thin features receive actual toolpaths. Overhang behavior depends on material, cooling, orientation, and the angle convention: 45 degrees is a useful starting heuristic, not a universal limit. Chamfers, self-supporting shapes, or splitting a part can help when they preserve function. Assess bridges and cantilevers in their real printing orientation.
