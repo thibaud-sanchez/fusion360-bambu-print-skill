@@ -14,4 +14,6 @@ Use the actual capabilities of the existing GUI, installed CLI, or connected too
 
 Inspect both project warnings and slicing logs or result files when available. A successful exit code alone does not establish printability. If an operation times out, check application health and the actual output files before retrying; do not assume later export steps completed. Do not present old meshes or G-code as the result of a newer optimization.
 
+Treat successful G-code generation and successful project export as separate results. A CLI launch can finish slicing and then fail while generating graphical thumbnails. Reuse a confirmed graphics-capable launch context already available in the environment when needed; do not repeatedly reslice with the same failing launch or handcraft a replacement 3MF. Check installed CLI restrictions before combining image export with slicing/project export. When executing a reusable Python file inside an app, set its module namespace deliberately so an `if __name__ == "__main__"` block does not run once on loading and again through the app entry point.
+
 If Bambu Studio or a compatible slicer is unavailable, deliver the actual files and proposed settings with precise preparation instructions. Mark the project, applied settings, slicing estimates, and checks as unverified where appropriate.

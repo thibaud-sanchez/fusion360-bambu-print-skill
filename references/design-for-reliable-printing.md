@@ -14,6 +14,14 @@ Question unnecessary geometry. An eccentric drive may need only a rigid arm and 
 
 Repeated revisions must still produce a coherent printable part. Apply [clean part reconstruction](efficient-iterations-and-part-identity.md#reconstruct-a-clean-part-when-geometry-accumulates) when obsolete interfaces or repair fragments remain. Define the required envelope and interfaces, replace the affected geometry, and remove unused tabs and ledges. Extra material may be appropriate for a smooth, robust connection; every added volume must have a deliberate purpose.
 
+## Design for simple layer paths
+
+Choose geometry with the intended build orientation and likely layer paths in mind, before selecting speed settings. Prefer coherent prismatic supports, constant sections and continuous contours when they meet the function. Remove unnecessary ledges, stair-step outlines, tiny islands and repeated notches that create short paths, travel moves or thin fill. A smooth curved contour can also be continuous; do not make an organic exterior square merely to simplify its CAD construction.
+
+Balance added part material against support material, print time, removal effort and strength. A modest integrated fill or printable chamfer may replace several fragile projections or difficult supports. Avoid filling an entire volume when a simple wall or rib suffices. Keep functional motion envelopes, shaft seats, assembly access and calibrated clearances intact.
+
+Simple-looking geometry is not automatically easier or faster to print: a rectangular recess can introduce a horizontal ceiling where a slope was self-supporting. Prefer broad, continuous walls with only the slopes needed for printability or clearance. Compare credible alternatives in the slicer when slicing is authorized, keeping profiles and orientation comparable. Look at short perimeters, travel, bridges, support interfaces and reported time/material; do not infer time savings from CAD volume, fewer faces or longer straight edges alone. Acceleration, cooling, volumetric flow and small-perimeter settings can limit actual speed. Without estimates, describe the expected benefit as a hypothesis.
+
 ## Make overhangs and assembly deliberate
 
 - Favor buildable slopes and chamfers on downward-facing edges. About 45 degrees **from the bed plane** is a conservative starting design heuristic, not a universal support threshold. Keep the angle convention explicit. Visible curves may remain curved when their orientation prints well.
@@ -42,6 +50,7 @@ When delivering an assembled object, provide a version-matched assembly guide wi
 
 - [UltiMaker: Design for FDM/FFF](https://ultimaker.com/learn/design-for-fff-3d-printing-maximize-your-success/) — orientation early in design, tolerances and bottom-edge chamfers.
 - [Prusa: Modeling with 3D printing in mind](https://help.prusa3d.com/article/modeling-with-3d-printing-in-mind_164135) — overhangs, splitting parts, directional strength, thin features and fit.
+- [Prusa: Speed settings](https://help.prusa3d.com/article/speed-settings_480325) — acceleration, small perimeters and overhangs affect actual printing speed. These principles do not substitute for estimates from the project's Bambu profiles.
 - [UltiMaker: Support settings](https://support.ultimaker.com/articles/Knowledge/1667417606331) — support stability and removal tradeoffs. These are process principles, not Bambu parameter names or presets to copy.
 
 The design decisions above are a reusable synthesis; numeric values remain project-specific candidates until verified on the actual printer and material.
