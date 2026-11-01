@@ -27,19 +27,16 @@ Layer SVGs show actual deposited paths at the requested Z (within 0.001 mm), wit
 
 ## Expectation file, version 1
 
-Use the existing independent part list and recorded manufacturing decisions. Do not manufacture expectations by copying the actual output being checked. The minimal file needs `schema_version`, `scope`, and a nonempty `parts` list. Optional fields enable further checks:
+Create or update `verification/fabrication.json` before checking a print delivery:
 
-A mismatch establishes a difference from that reference, not that the user's change was wrong. If the user intentionally changes orientation or process settings, update the project expectations to the accepted decision and keep the earlier comparison as historical evidence. Do not automatically restore old settings or silently rewrite expectations merely to obtain a pass.
+- Set `schema_version`, delivery `scope`, and the expected part IDs and quantities from the project's parts list.
+- Add known dimensions, accepted print orientations, bed limits and agreed settings from the design and manufacturing decisions. Do not derive the reference solely from the file being checked.
+- Reuse an existing compatible expectation file when available. Keep it with the corresponding revision's verification outputs.
+- Update the affected expectations after an accepted design or settings change. Investigate differences before changing the reference; do not relax requirements merely to obtain a pass.
 
-### Where `fabrication.json` comes from
+Run `check project.3mf --expect verification/fabrication.json --report verification/printcheck.json` with the actual paths. Create the output directory if needed and include both paths in the delivery notes.
 
-This is a small **project-owned expectation file written by the assistant or a person**, not a Bambu export or a required filename. Create it when preparing a checked delivery, using the independent parts list, quantities, accepted print orientations, CAD measurements/export records and agreed settings. Record that provenance in the existing project notes. Start with only those expectations that are known; omit unsupported assumptions.
-
-Store it with the project's verification files, keep paths portable, and version it with the corresponding delivery. During an exploratory check without a reliable reference, omit `--expect`: the tool reports inventory but cannot establish that the assembly is complete. Do not add a second manifest if an existing file can supply the documented expectation shape through a small, explicit adapter.
-
-For a checked delivery, creating/updating and using this expectation file is part of the preparation task, not optional documentation left for the user. Establish known requirements before inspecting the final output where practical. Create the verification directory if needed, then run `check project.3mf --expect verification/fabrication.json --report verification/printcheck.json` with the actual paths. Include the expectation and report paths in the delivery notes. If essential expectations cannot be established from project evidence, state that limitation rather than claiming the delivery is complete.
-
-Update only the expectations affected by a new accepted decision. In particular, preserve geometric requirements when a user changes supports or infill, and preserve intentional object overrides when changing a global setting. A previous delivery may be a replacement set; testing it against a later complete-assembly list is a deliberate negative test, not evidence that the earlier delivery was incomplete for its original request.
+Without reliable expectations, use an exploratory inventory check and report completeness as unverified. Omit unknown optional values rather than inventing them.
 
 ```json
 {
