@@ -37,6 +37,8 @@ This is a small **project-owned expectation file written by the assistant or a p
 
 Store it with the project's verification files, keep paths portable, and version it with the corresponding delivery. During an exploratory check without a reliable reference, omit `--expect`: the tool reports inventory but cannot establish that the assembly is complete. Do not add a second manifest if an existing file can supply the documented expectation shape through a small, explicit adapter.
 
+For a checked delivery, creating/updating and using this expectation file is part of the preparation task, not optional documentation left for the user. Establish known requirements before inspecting the final output where practical. Create the verification directory if needed, then run `check project.3mf --expect verification/fabrication.json --report verification/printcheck.json` with the actual paths. Include the expectation and report paths in the delivery notes. If essential expectations cannot be established from project evidence, state that limitation rather than claiming the delivery is complete.
+
 Update only the expectations affected by a new accepted decision. In particular, preserve geometric requirements when a user changes supports or infill, and preserve intentional object overrides when changing a global setting. A previous delivery may be a replacement set; testing it against a later complete-assembly list is a deliberate negative test, not evidence that the earlier delivery was incomplete for its original request.
 
 ```json
