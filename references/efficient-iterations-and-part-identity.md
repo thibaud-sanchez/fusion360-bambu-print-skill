@@ -9,6 +9,16 @@ Use this reference when modifying CAD, resuming work, or preparing iterative pri
 - Record the mapping once in an existing project table or a small manifest: ID, name, role, quantity, Fusion binding and export filename. Distinguish different part designs from repeated instances of the same part. Keep variants and compatibility explicit; sharing an ID does not establish interchangeability between revisions.
 - Keep IDs stable across compatible revisions; do not recycle retired IDs. Record a mapping when splitting or merging parts. For legacy models, map old names first and migrate callers deliberately rather than breaking name-based scripts with an unsolicited rename.
 
+## Keep the delivery scope and physical evidence explicit
+
+Extend the existing part record or progress file rather than creating a parallel tracking system:
+
+- Record whether the current delivery is a complete assembly or a specified replacement set, with required IDs, quantities and compatible reused parts. A list of changed parts is not the delivery list. An unchanged part still belongs in a requested complete plate; do not silently carry a replacement-only scope into the next release.
+- For each relevant part, record its intended printer orientation using a rotation/reference frame or an unambiguous oriented view, the reason, and any user-observed success or failure. Distinguish the orientation actually printed from the one previously delivered. Apply explicit orientation corrections to the current preparation source as well as the output, so regeneration does not restore the old rotation.
+- Identify physically successful interfaces and their tested revision/configuration. Preserve them during unrelated changes; if an interface must change, state why and mark the affected physical validation as needing renewal. A working clip does not establish that the entire assembly is validated.
+
+Before a costly operation, resolve these records and the changed IDs. Preserve concise outcomes in the resume file; do not reread the full historical conversation or every archived revision to recover a decision already recorded there.
+
 ## Resolve the target before a costly change
 
 Identify the exact part, its mating parts and its role: fixed support, moving linkage, main axle, eccentric pin or enclosure. When the request is ambiguous, use an actual annotated view or a small schematic and state the intended assembly action before committing to a full redesign. Ask only if the ambiguity materially changes the solution and cannot be resolved from available evidence.
@@ -31,6 +41,7 @@ Use a small direct edit when it produces a clean result. Repeated failure or rep
 ## Reuse execution, limit repeated context
 
 - Inspect existing helpers before writing replacements for transforms, units, captures, collision checks, mesh inspection or exports. Extract a small tested function when repetition justifies it; do not refactor historical archives or build a general geometry framework as part of an ordinary model edit.
+- Useful small helpers include expected-versus-actual part/quantity checks, orientation checks, frame transforms, printable-envelope checks including generated supports/brims, and protected-joint path checks. Parameterize part IDs, frames and expected values instead of copying another model's counts or coordinates. Keep these helpers separate from model-specific geometry; do not build a new library merely to document an iteration.
 - Prefer named parameters and reference frames over duplicated coordinates. Reuse native Fusion joints and existing checks where appropriate; do not recreate a second motion model without a concrete need.
 - Batch related measurements or motion samples within a supported operation. Serialize Fusion jobs: keep one mutation in flight and avoid interleaved native queries while it is running. Use the supported execution context for Fusion API calls.
 - Keep long-running job IDs, revision identifiers and progress in files when supported. After a timeout, inspect progress and outputs before retrying or restarting. An old output file is not evidence that the current run completed.
@@ -44,6 +55,8 @@ Keep recoverable native checkpoints before risky edits and preserve delivered or
 During exploration, modify and test the smallest representative part, joint coupon or assembly that can resolve the uncertainty. Compare a small number of credible alternatives instead of generating exhaustive combinations. After two unsuccessful attempts at the same issue, revisit the diagnosis and evidence before another redesign; do not automatically add more complete variants.
 
 Run checks affected by the change, including mating interfaces, motion envelopes and assembly paths. Reuse prior results only when the relevant geometry, configuration and checker version are demonstrably unchanged; names, timestamps, bounding boxes and volumes alone are insufficient. If impact is uncertain, broaden verification. Reslice affected objects when geometry, orientation or effective print settings change.
+
+Record why a costly rebuild or reslice is needed: changed input, failed check or unresolved question. Documentation-only edits do not require geometry regeneration or slicing. Stop repeating successful unchanged checks once their results are tied to the current inputs. Local validation during exploration does not replace the final saved-project checks when a full project is delivered.
 
 At a delivery milestone, produce the requested exports, a revision-matched guide and verified slicer projects. Inspect and reopen actual deliverables as applicable. Keep older releases intact and mark their known failures. Delete or consolidate archives only when requested.
 

@@ -35,6 +35,14 @@ Keep validated `support_top_z_distance`, `support_bottom_z_distance`, `support_o
 
 Check that supports can be gripped and removed without breaking an antenna, latch, thin wall or small axle. Keep them out of moving gaps. Inspect tall branches and towers for narrow anchors and excessive leverage, including bed motion. A stronger style is only a candidate, not a cure for an inaccessible or unstable support layout.
 
+## Diagnose a missing support locally
+
+Before another trial, locate the part and the exact first unsupported toolpaths in the sliced layers. Inspect the surface below, bridge anchoring, actual support/interface layers and available vertical/XY space. Check effective object settings, including placement restrictions and any installed small-overhang filtering such as `support_remove_small_overhang`. Merely enabling supports or changing family does not establish coverage of that region.
+
+In a narrow cavity, the available space may not accommodate the requested top/bottom separation and a printable support/interface layer. Check the generated layers rather than relying on a nominal gap calculation. Change only the implicated settings or geometry, then inspect the same region again. Smaller separation can increase adhesion, scarring and removal force; assess access and nearby fragile features before selecting it. Do not copy another part's contact distances as universal defaults or disable filtering globally to resolve one local defect.
+
+Use a relevant part-only trial when it resolves the issue within the authorized scope, then verify the selected arrangement in the final delivered project. Follow [correct-frame checks](bambu.md#check-mechanical-regions-in-the-correct-frame) for automated support-exclusion tests.
+
 ## Compare only when useful
 
 When slicing is authorized and both families are plausible, compare at most two credible candidates on the affected parts with the same orientation and other settings. Inspect coverage, stability, contact locations and cleanup access before comparing time and material. Record support-only estimates only when reported by the slicer.

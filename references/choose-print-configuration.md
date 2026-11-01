@@ -10,6 +10,8 @@ Honor an explicitly requested mode. During iterative development without another
 
 During development, deliver one current Prototype project, using Prototype --mechanical when necessary. Aim for one plate with all required parts, allowing for actual brim/support footprints, bed limits and compatible settings. If one plate cannot work reliably, explain the concrete constraint and use the minimum necessary plates in that same project where supported.
 
+Determine the required parts from the requested delivery scope, not just the CAD change list. Check a complete assembly or an explicitly requested replacement set against the actual saved project using [Verify the saved delivery](bambu.md#verify-the-saved-delivery). Preserve recorded build orientations during placement unless a justified manufacturing change supersedes them.
+
 Update the current project as needed while preserving recoverable checkpoints and older delivered revisions. Do not generate extra Functional, Quality, Release, alternate-orientation, replacement-only or coupon projects unless requested or already authorized. A small coupon may be proposed when it resolves a specific uncertainty; do not automatically add it to every delivery. Once the user requests another mode, prepare that mode without generating the remaining modes as well.
 
 Time comparisons do not require a collection of delivered variants: when optimization is requested, keep baseline measurements and temporary experiments as evidence, then deliver the selected result. Distinguish internal trials from user-facing projects.
