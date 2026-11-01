@@ -2,18 +2,23 @@
 import contextlib
 import io
 import json
+import base64
 from pathlib import Path
 import runpy
 import sys
 import tempfile
 from types import SimpleNamespace as NS, ModuleType
 import unittest
+import xml.etree.ElementTree as ET
+import struct
+import zlib
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 mesh = NS(**runpy.run_path(str(ROOT/"scripts/meshcheck.py")))
 snapshot = NS(**runpy.run_path(str(ROOT/"scripts/fusion_snapshot.py")))
 export = NS(**runpy.run_path(str(ROOT/"scripts/export_parts.py")))
+preview = NS(**runpy.run_path(str(ROOT/"scripts/stl_preview.py")))
 
 
 def cube(offset=(0, 0, 0), size=(10, 4, 2)):
@@ -22,6 +27,20 @@ def cube(offset=(0, 0, 0), size=(10, 4, 2)):
     faces = [(0, 1, 3), (0, 3, 2), (4, 6, 7), (4, 7, 5), (0, 4, 5), (0, 5, 1),
              (2, 3, 7), (2, 7, 6), (0, 2, 6), (0, 6, 4), (1, 5, 7), (1, 7, 3)]
     return [tuple(v for i in face for v in vertices[i]) for face in faces]
+
+
+def ring():
+    outer = [(-5, -5), (5, -5), (5, 5), (-5, 5)]
+    inner = [(-4, -4), (4, -4), (4, 4), (-4, 4)]
+    result = []
+    for i in range(4):
+        j = (i+1) % 4
+        a, b, c, d = (*outer[i], 0), (*outer[j], 0), (*inner[j], 0), (*inner[i], 0)
+        aa, bb, cc, dd = (a[0], a[1], 2), (b[0], b[1], 2), (c[0], c[1], 2), (d[0], d[1], 2)
+        for quad in [(aa, bb, cc, dd), (a, d, c, b), (a, b, bb, aa), (d, dd, cc, c)]:
+            result += [tuple(v for p in (quad[0], quad[1], quad[2]) for v in p),
+                       tuple(v for p in (quad[0], quad[2], quad[3]) for v in p)]
+    return result
 
 
 class MeshTests(unittest.TestCase):
@@ -96,6 +115,101 @@ class MeshTests(unittest.TestCase):
     def test_report_cannot_overwrite_stl(self):
         p = self.file(cube()); before = p.read_bytes()
         with contextlib.redirect_stdout(io.StringIO()): status = mesh.main([str(p), "--report", str(p)])
+        self.assertEqual(status, 2); self.assertEqual(p.read_bytes(), before)
+
+    def test_flat_contact_uses_area_not_triangles_or_bounding_box(self):
+        report = mesh.inspect(self.file(ring()))
+        self.assertEqual(report["status"], "pass", report["findings"])
+        self.assertAlmostEqual(report["bed_contact"]["projected_face_area_sum_mm2"], 36)
+        self.assertAlmostEqual(report["bed_contact"]["fraction_of_xy_rectangle"], .36)
+
+    def test_bed_plane_does_not_silently_drop_a_floating_model(self):
+        p = self.file(cube(offset=(0, 0, 10)))
+        report = mesh.inspect(p)
+        self.assertEqual(report["bed_contact"]["projected_face_area_sum_mm2"], 0)
+        self.assertIn("above_bed", {w["code"] for w in report["warnings"]})
+        self.assertAlmostEqual(mesh.inspect(p, bed_z_mm=10)["bed_contact"]["projected_face_area_sum_mm2"], 40)
+
+    def test_point_contact_and_small_base_are_advisories(self):
+        points = [(0, 0, 0), (-1, -1, 5), (1, -1, 5), (0, 1, 5)]
+        records = [tuple(v for i in face for v in points[i]) for face in [(1, 2, 3), (0, 2, 1), (0, 3, 2), (0, 1, 3)]]
+        report = mesh.inspect(self.file(records))
+        self.assertEqual(report["status"], "pass")
+        self.assertIn("no_flat_bed_contact", {w["code"] for w in report["warnings"]})
+        report = mesh.inspect(self.file(cube(size=(.2, .2, 5))))
+        self.assertEqual(report["status"], "pass")
+        self.assertIn("small_bed_contact", {w["code"] for w in report["warnings"]})
+
+    def test_contact_band_clips_faces_instead_of_counting_whole_face(self):
+        area = mesh.clipped_area_xy([(0, 0, -1), (2, 0, 1), (0, 2, 1)], -.1, .1)
+        self.assertAlmostEqual(area, .2)
+
+    def test_contact_estimate_is_unavailable_for_bad_winding(self):
+        records = [a[:3]+a[6:9]+a[3:6] for a in cube()]
+        report = mesh.inspect(self.file(records))
+        self.assertEqual(report["bed_contact"]["status"], "unavailable")
+        self.assertIsNone(report["bed_contact"]["projected_face_area_sum_mm2"])
+
+    def test_contact_threshold_does_not_change_topology_exit_status(self):
+        p = self.file(cube(size=(.2, .2, 5)))
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            status = mesh.main([str(p), "--min-contact-mm2", "2"])
+        self.assertEqual(status, 0)
+        self.assertTrue(json.loads(output.getvalue())["results"][0]["warnings"])
+
+
+class PreviewTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+
+    def file(self, records):
+        p = self.root/"A1_Part.stl"; mesh.write_binary(p, records); return p
+
+    def raw_pixels(self, data):
+        pos, compressed = 8, b""
+        while pos < len(data):
+            size = struct.unpack_from(">I", data, pos)[0]
+            if data[pos+4:pos+8] == b"IDAT": compressed += data[pos+8:pos+8+size]
+            pos += size+12
+        return zlib.decompress(compressed)
+
+    def test_multi_view_svg_is_self_contained_and_source_unchanged(self):
+        p = self.file(cube()); before = p.read_bytes(); target = self.root/"preview.svg"
+        report = preview.preview(p, target, size=64)
+        self.assertEqual(report["dimensions_mm"], [10, 4, 2])
+        self.assertEqual(report["views"], ["front", "right", "top", "iso"])
+        root = ET.parse(target).getroot()
+        images = root.findall("{http://www.w3.org/2000/svg}image")
+        self.assertEqual(len(images), 4)
+        for node in images:
+            pixels = self.raw_pixels(base64.b64decode(node.get("href").split(",", 1)[1]))
+            self.assertGreater(len(set(pixels)), 4)  # Geometry, not just a background.
+        self.assertEqual(p.read_bytes(), before)
+
+    def test_depth_buffer_keeps_nearer_triangle_regardless_of_order(self):
+        near = (-1, 0, -1, 1, 0, -1, 0, 0, 1)
+        far = (-1, 10, -1, 1, 10, -1, 0, 14, 1)
+        def image(records):
+            p = self.file(records); lo, hi, _ = preview.bounds_of(p, 1)
+            png, _ = preview.render(p, "front", lo, hi, size=64)
+            return self.raw_pixels(png)
+        expected, distant = image([near]), image([far])
+        self.assertNotEqual(expected, distant)
+        self.assertEqual(image([near, far]), expected)
+        self.assertEqual(image([far, near]), expected)
+
+    def test_scale_is_explicit(self):
+        p = self.file(cube(size=(1, .4, .2)))
+        report = preview.preview(p, self.root/"preview.svg", views=["iso"], size=64, scale=10)
+        for actual, wanted in zip(report["dimensions_mm"], [10, 4, 2]):
+            self.assertAlmostEqual(actual, wanted, places=5)
+
+    def test_preview_cannot_overwrite_source(self):
+        p = self.file(cube()); before = p.read_bytes()
+        with contextlib.redirect_stdout(io.StringIO()):
+            status = preview.main([str(p), "--output", str(p)])
         self.assertEqual(status, 2); self.assertEqual(p.read_bytes(), before)
 
 

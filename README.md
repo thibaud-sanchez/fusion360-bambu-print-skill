@@ -84,7 +84,7 @@ It returns a short JSON summary and exit code 0 (requested checks passed), 1 (di
 
 ## Outputs and limits
 
-The [Fusion and STL helpers](references/reusable-tools.md) complement Printcheck: `fusion_snapshot.py` reads a named active design and optionally captures its current view, `meshcheck.py` inspects ASCII/binary STL topology and dimensions, and `export_parts.py` exports explicitly selected solid bodies to oriented mm STL files. Meshcheck runs with ordinary Python 3.10+; the two Fusion scripts run inside the application's existing API context. All retain the source geometry. See the reference for invocation, plans, checks and limits.
+The [Fusion and STL helpers](references/reusable-tools.md) complement Printcheck: `fusion_snapshot.py` reads a named active design and optionally captures its current view, `meshcheck.py` inspects ASCII/binary STL topology, dimensions and geometric bed contact, `stl_preview.py` renders actual exported meshes into a standalone multi-view SVG, and `export_parts.py` exports explicitly selected solid bodies to oriented mm STL files. Meshcheck and STL Preview run with ordinary Python 3.10+; the two Fusion scripts run inside the application's existing API context. All retain the source geometry. See the reference for invocation, plans, checks and limits.
 
 Depending on the request and available tools, outputs can include editable native CAD, exchange files, printable meshes, a Bambu project and an assembly guide. Configuration reports identify applied settings, available slicer estimates, tradeoffs and remaining tests.
 
@@ -99,6 +99,7 @@ Starting a print or uploading a project requires an explicit request. No fixed r
 - [scripts/printcheck.py](scripts/printcheck.py): reusable local checker, using only the Python standard library.
 - [scripts/fusion_snapshot.py](scripts/fusion_snapshot.py): one-call native design inventory and optional current-view capture.
 - [scripts/meshcheck.py](scripts/meshcheck.py): STL topology and dimension checks.
+- [scripts/stl_preview.py](scripts/stl_preview.py): exported-mesh views without Fusion or external rendering packages.
 - [scripts/export_parts.py](scripts/export_parts.py): selected-body STL export with explicit frames and print rotations.
 - [tests/test_printcheck.py](tests/test_printcheck.py): behavioral regression tests for the checker.
 - [tests/test_reusable_tools.py](tests/test_reusable_tools.py): mesh and selected-export regressions.

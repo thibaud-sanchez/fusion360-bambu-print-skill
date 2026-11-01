@@ -142,7 +142,8 @@ def export_plan(plan_path, output_dir, *, overwrite=False):
                          "shared_translation_mm": [-v for v in offset], "units": "mm",
                          "dimensions_mm": checked["dimensions_mm"], "bounds_mm": checked["bounds_mm"],
                          "sha256": checked["sha256"], "triangles": checked["triangles"],
-                         "edge_connected_shells": checked["edge_connected_shells"], "mesh_status": checked["status"]})
+                         "edge_connected_shells": checked["edge_connected_shells"], "mesh_status": checked["status"],
+                         "bed_contact": checked["bed_contact"], "warnings": checked["warnings"]})
         if app.activeDocument != doc or snapshot.document_record(doc) != before:
             raise RuntimeError("Source document/state changed during export; no staged results were published")
         report = {"tool": "export_parts", "version": VERSION, "document": before,

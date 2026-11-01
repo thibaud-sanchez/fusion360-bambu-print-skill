@@ -6,6 +6,7 @@ Use the bundled helpers for repeated inspection/export work instead of rewriting
 |---|---|---|
 | [fusion_snapshot.py](../scripts/fusion_snapshot.py) | Inside Fusion through its existing script/API route | Read one explicitly named active design; optional current-view PNG |
 | [meshcheck.py](../scripts/meshcheck.py) | Ordinary Python 3.10+ | Inspect STL dimensions and topology without changing it |
+| [stl_preview.py](../scripts/stl_preview.py) | Ordinary Python 3.10+ | Inspect the exported STL under several views without Fusion |
 | [export_parts.py](../scripts/export_parts.py) | Inside Fusion through its existing script/API route | Export selected solid bodies to mm STL with explicit frames/orientations |
 
 Keep these files together with the other scripts when installing the skill. All use the standard library; Fusion tools additionally require the application's in-process `adsk` API. Running the Fusion scripts as shell commands is unsupported. They do not silently activate a different document or close existing documents.
@@ -53,6 +54,33 @@ STL units are **assumed**, not discovered. `--scale` explicitly converts source 
 `--expected-components` counts **edge-connected surface shells**, default 1, not physical parts. Captive assemblies and closed internal cavities can legitimately have multiple shells. Record the expected count from the design. Inner cavity shells can have negative signed volumes while the overall correctly oriented solid remains positive. Results do not establish shell nesting, all vertex-fan conditions, absence of self-intersections, minimum wall thickness, moving clearance, adhesion or strength.
 
 Run this on changed STL exports before slicing; do not recheck unchanged meshes at every conversational turn.
+
+### Measure geometric bed contact
+
+Meshcheck also reports `bed_contact` and advisory `warnings`. The default bed plane is **Z=0 mm**; `--bed-z-mm` selects another plane without moving the model. Downward triangles within 5 degrees of horizontal are clipped to a band of **±0.02 mm** around that plane (`--contact-band-mm` changes the half-width). Their XY projected areas are summed. This preserves openings in a flat rim and avoids counting a whole tilted triangle because one corner reaches the bed.
+
+The result is `projected_face_area_sum_mm2`, with the area of the XY bounding rectangle reported separately for context. It is a sum of faces, not a polygon union: overlapping surfaces can overcount. Meshcheck warns when the sum exceeds that rectangle. Invalid topology/winding makes the contact estimate unavailable. The fixed angle and band are explicit geometric measurement choices, not nozzle or layer-height calibration.
+
+Warnings cover a model above/below the selected plane, no near-flat contact, a contact area below **1 mm²** (adjustable with `--min-contact-mm2`), or contact below **5%** of its XY rectangle. These are review prompts, not universal rejection thresholds. Warnings do not change the topology/dimension pass/fail exit code and do not automatically enable brims or change orientation. Export reports retain them.
+
+Inspect the actual sliced first layer, support feet, brim, height/leverage, plate/material and previous print results before choosing adhesion measures. A curved underside can have little near-flat triangle area but a larger deposited first layer; conversely, a broad flat base does not guarantee adhesion. Assembly-frame exports may intentionally be positioned away from the bed. No automatic drop or unsupported-body conclusion follows from this metric.
+
+The idea of measuring contact area was informed by [bambu-studio-ai's geometry checks](https://github.com/heyixuan2/bambu-studio-ai/blob/main/scripts/bambu_studio_ai/mesh/checks.py); this implementation uses an explicit plane and polygon clipping. No code or profile data from that project is bundled.
+
+## Preview the exported STL without Fusion
+
+```bash
+python3 /path/to/fusion-bambu-print/scripts/stl_preview.py B1_Base.stl \
+  --output verification/B1_preview.svg --report verification/B1_preview.json
+```
+
+This generates one standalone SVG containing depth-buffered raster views of the **actual STL triangles**: front, right, top and isometric. Original XYZ orientation is preserved; each view fits the same geometry without changing the source mesh. Labels give source name, assumed-mm dimensions and triangle count. Uniform shading is diagnostic, not a material render. No Fusion, Blender or third-party package is needed.
+
+Use `--views iso` for a cheaper single view, or list up to four of `front right top iso`. Front looks from −Y with +Z up, right from +X with +Z up, top from +Z with +Y up. Default panel size is 320 pixels, adjustable with `--size 64..1024`. `--scale` explicitly converts source coordinates to mm, as in Meshcheck. Output parent directories must exist; an existing preview is replaced. An optional report path must differ from the source and SVG.
+
+The renderer does not decimate or repair the mesh. Runtime increases with triangle count, panel size and number of views; use one low-resolution view for an initial check of a heavy mesh, then inspect relevant views/details. The SVG embeds its PNG panels and has no external image dependency. Exit 0 means preview generation succeeded; exit 2 indicates incomplete/invalid input or output failure.
+
+Inspect exports after a relevant geometry/orientation change or when Fusion is unavailable; reuse a preview only when its source hash matches. Pixel resolution can hide thin gaps and small defects. Continue Meshcheck, Printcheck and critical dimension/clearance checks; an attractive image does not establish printability or mechanical validity. This helper does not generate assembly/exploded guides or replace editable CAD.
 
 ## Export only explicitly selected bodies
 
