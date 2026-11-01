@@ -1,5 +1,7 @@
 # Fusion 360 design and export
 
+For repeated inspection or selected-body STL exports, use the bundled [Fusion and STL helpers](reusable-tools.md) through the existing API/script route. They enforce an explicit active-document binding and avoid changing source geometry. Native/STEP export and design edits remain separate operations.
+
 - Build around functional dimensions, explicit parameters, sketch constraints, and readable feature history. Separate moving or assembled components. Preserve design intent when editing and document assumed dimensions and adjustable clearances.
 - Bind components to the project's stable part IDs, following [part identity](efficient-iterations-and-part-identity.md#give-parts-stable-identities). Name critical origins, axes and reference frames so a main axle and an eccentric pin cannot silently share copied coordinates. Resolve legacy component bindings before changing names used by scripts.
 - Fusion Design API numeric lengths use centimeters internally and angles use radians. Use explicit expressions such as `ValueInput.createByString('10 mm')` for parameters, convert point coordinates and raw numeric values correctly, and check a known dimension. The `adsk` API runs inside Fusion; ordinary external Python may not provide it. Verify the installed version's API capabilities before using unfamiliar operations.

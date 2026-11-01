@@ -2,7 +2,7 @@
 
 **`fusion-bambu-print`** is an AI assistant skill for designing printable FDM parts in Autodesk Fusion and preparing them in Bambu Studio. It focuses on simple mechanisms, robust assembly, practical build orientations and efficient iterations.
 
-This package contains instructions, focused references and a standalone read-only Python checker. Fusion and slicing automation uses the tools already available in your environment; the skill does not install an MCP server or a new application integration.
+This package contains instructions, focused references and small Python inspection/export tools. Fusion and slicing automation uses the tools already available in your environment; the skill does not install an MCP server or a new application integration.
 
 ## What it helps with
 
@@ -84,6 +84,8 @@ It returns a short JSON summary and exit code 0 (requested checks passed), 1 (di
 
 ## Outputs and limits
 
+The [Fusion and STL helpers](references/reusable-tools.md) complement Printcheck: `fusion_snapshot.py` reads a named active design and optionally captures its current view, `meshcheck.py` inspects ASCII/binary STL topology and dimensions, and `export_parts.py` exports explicitly selected solid bodies to oriented mm STL files. Meshcheck runs with ordinary Python 3.10+; the two Fusion scripts run inside the application's existing API context. All retain the source geometry. See the reference for invocation, plans, checks and limits.
+
 Depending on the request and available tools, outputs can include editable native CAD, exchange files, printable meshes, a Bambu project and an assembly guide. Configuration reports identify applied settings, available slicer estimates, tradeoffs and remaining tests.
 
 The skill distinguishes work that was modeled, exported, sliced or physically tested. Successful slicing and collision checks do not establish snap-fit force, material strength, wear or durability. Physical trials remain necessary for functional interfaces.
@@ -95,7 +97,11 @@ Starting a print or uploading a project requires an explicit request. No fixed r
 - [SKILL.md](SKILL.md): instructions for the assistant and routing to the relevant references.
 - [references/](references/): design, mechanical assembly, Fusion, Bambu settings and iteration guidance.
 - [scripts/printcheck.py](scripts/printcheck.py): reusable local checker, using only the Python standard library.
+- [scripts/fusion_snapshot.py](scripts/fusion_snapshot.py): one-call native design inventory and optional current-view capture.
+- [scripts/meshcheck.py](scripts/meshcheck.py): STL topology and dimension checks.
+- [scripts/export_parts.py](scripts/export_parts.py): selected-body STL export with explicit frames and print rotations.
 - [tests/test_printcheck.py](tests/test_printcheck.py): behavioral regression tests for the checker.
+- [tests/test_reusable_tools.py](tests/test_reusable_tools.py): mesh and selected-export regressions.
 - `README.md`: installation and usage information for people.
 
 The package is reusable across projects and does not require a particular model or its historical scripts.
