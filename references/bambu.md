@@ -12,6 +12,8 @@ An STL or geometry-only 3MF is not necessarily a Bambu project with settings, pl
 
 Use the existing project part record as the expectation, then inspect the actual saved/reopened project. Do not derive both the expectation and the result from the same export list.
 
+Use the bundled [Printcheck](printcheck.md) for supported inventory, geometry, settings and deposited-path checks. It reads the saved file without opening Bambu; application reopening and checks beyond its documented scope remain necessary. Keep its expectation file and full report with the project rather than embedding model-specific rules in the skill.
+
 - Compare required IDs and quantities with actual objects/instances. Distinguish physical bodies from print objects: a captive multi-body joint may intentionally be one print object. Detect missing parts, duplicates and unintended extra plates; for replacements, identify the compatible parts the user must reuse.
 - Confirm scale, intended bed face and functional axis orientation after the complete export/import/placement chain. Use transforms or meaningful geometric landmarks; extents can catch an obvious side rotation but cannot establish orientation for symmetric parts. A label such as "upright" is not verification.
 - Check the effective machine, filament, process and relevant object overrides. Inspect actual model, support and brim paths against the usable bed, reserved areas and required inter-object/toolhead clearances. A model-only bounding box or preview thumbnail is insufficient.
