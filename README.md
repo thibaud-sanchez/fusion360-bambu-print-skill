@@ -12,6 +12,7 @@ This package contains instructions and focused references. Automation uses the F
 - Print settings suited to a prototype, a working part, a display model or a release prepared for sharing.
 - Geometry-based [support selection](references/choose-support-structure.md), including normal, tree and hybrid styles, stability and removal access.
 - Smaller iterations: reuse working scripts, test the affected parts and preserve checkpoints without rebuilding every deliverable.
+- Delivery checks against expected part IDs and quantities, recorded build orientations, and the actual saved plate, including support/brim footprints.
 - Clean reconstruction of repeatedly edited parts: preserve functional interfaces and replace accumulated repairs, obsolete tabs and stray ledges with coherent geometry.
 - Revision-matched CAD views, exports and assembly instructions when delivering an assembly.
 
